@@ -1,9 +1,89 @@
 <html>
-<head>
-    <title>This is index.html</title>
-</head>
+<title>This is index.html</title>
 <body>
-    <h1>Index</h1>
-    <p>This is the content of index.html.</p>
-</body>
+<script>
+  
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+  
+    if (response.status === 'connected') {
+      // Log in to your app and Facebook.
+      testAPI();
+    } else {
+      // The person is not logged into your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    }
+  }
+
+  
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+   
+  window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '224235795727162',
+        xfbml      : true,
+        version    : 'v2.10'
+      });
+      FB.AppEvents.logPageView();
+
+  
+  /* This function gets the state of the
+  person visiting this page:
+  
+  1. Logged into your app
+  2. Logged into Facebook, but not your app ('not_authorized')
+  3. Not logged into Facebook and can't tell if they are logged into
+   your app or not.
+  These three cases are handled in the callback function.*/
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+    };
+  
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {
+          return;
+       }
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+
+
+  // Successful. See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome! Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+  </script>
+
+<h1>Index.html</h1>
+<p>This is the contents of this file</p>
+
+<!--
+  The button uses
+  the JS DK to present a graphical log in button that starts
+  the FB.login() function when clicked.
+-->
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
+    
+    <div id="status">
+    </div>
+  </body>
+  
 </html>

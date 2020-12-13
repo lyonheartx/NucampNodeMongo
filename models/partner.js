@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const partnerSchema = new Schema({
-    name: {
+    name : {
         type: String,
         required: true,
         unique: true
@@ -12,16 +12,16 @@ const partnerSchema = new Schema({
         required: true
     },
     featured: {
-        type: Boolean,
-        default: false
+        type: Boolean
     },
     description: {
         type: String,
         required: true
-    },
-},{
+    }
+},
+{
     timestamps: true
-});   
+});
 
 const Partner = mongoose.model('Partner', partnerSchema);
 
